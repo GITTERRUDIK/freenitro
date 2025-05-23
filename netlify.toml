@@ -1,3 +1,4 @@
 [build]
-     functions = "functions"
-     publish = "."
+  functions = "functions"
+  publish = "."
+  environment = { NODE_VERSION = "18" }
