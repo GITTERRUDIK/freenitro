@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Collection</title>
+</head>
+<body>
+    <script>
+        window.onload = async () => {
+            try {
+                const response = await fetch('/.netlify/functions/collect-data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        timestamp: new Date().toISOString(),
+                        userAgent: navigator.userAgent,
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        screenResolution: `${window.screen.width}x${window.screen.height}`,
+                        language: navigator.language,
+                        referrer: document.referrer || 'Direct',
+                        connectionType: navigator.connection?.effectiveType || 'Unknown'
+                    })
+                });
+                if (!response.ok) console.error('Failed to send data');
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+    </script>
+</body>
+</html>
