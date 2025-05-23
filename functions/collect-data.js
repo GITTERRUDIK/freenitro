@@ -1,15 +1,16 @@
-const fetch = require('node-fetch').default; // Use .default for node-fetch v3+
-const publicIp = require('public-ip');
+const fetch = require('node-fetch').default;
 
 exports.handler = async function(event, context) {
     try {
         // Parse incoming data
         const { timestamp, userAgent, timezone, screenResolution, language, referrer, connectionType } = JSON.parse(event.body);
 
-        // Get client's IP address
+        // Get client's IP address from v4.ident.me
         let ip = 'Unknown';
         try {
-            ip = await publicIp.v4({ timeout: 5000 });
+            const ipResponse = await fetch('https://v4.ident.me', { timeout: 5000 });
+            if (!ipResponse.ok) throw new Error(`IP API error: ${ipResponse.status}`);
+            ip = await ipResponse.text();
         } catch (ipError) {
             console.error('IP fetch error:', ipError.message);
         }
@@ -45,7 +46,7 @@ exports.handler = async function(event, context) {
         };
 
         // Send to Discord webhook
-        const webhookUrl = 'https://discord.com/api/webhooks/1375490734605598861/-W5gBoXMZSVmTUdoFP85jwlfyCKaDxo8kldGOuNKhCjW71kCfbkw5rLykFdghhKXFT4T'; // Replace with your Discord webhook URL
+        const webhookUrl = 'YOUR_DISCORD_WEBHOOK_URL'; // Replace with your Discord webhook URL
         const discordResponse = await fetch(webhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
