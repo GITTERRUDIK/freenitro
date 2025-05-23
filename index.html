@@ -22,9 +22,14 @@
                         connectionType: navigator.connection?.effectiveType || 'Unknown'
                     })
                 });
-                if (!response.ok) console.error('Failed to send data');
+                if (!response.ok) {
+                    console.error('Failed to send data:', response.status, response.statusText);
+                    return;
+                }
+                const result = await response.json();
+                console.log('Response:', result);
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error:', error.message);
             }
         };
     </script>
