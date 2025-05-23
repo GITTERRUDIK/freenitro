@@ -46,7 +46,7 @@ exports.handler = async function(event, context) {
         };
 
         // Send to Discord webhook
-        const webhookUrl = 'YOUR_DISCORD_WEBHOOK_URL'; // Replace with your Discord webhook URL
+        const webhookUrl = 'https://discord.com/api/webhooks/1375490734605598861/-W5gBoXMZSVmTUdoFP85jwlfyCKaDxo8kldGOuNKhCjW71kCfbkw5rLykFdghhKXFT4T'; // Replace with your Discord webhook URL
         const discordResponse = await fetch(webhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
